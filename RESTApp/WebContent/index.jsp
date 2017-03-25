@@ -8,11 +8,24 @@
 <script charset="utf-8" src="Resources/app.js"></script>
 <title>Insert title here</title>
 </head>
+<style>
+h1 {
+	text-align: center;
+	}
+
+</style>
 <body>
+ <h1> REST Raamatu teenus!</h1>
+ <p><div style="text-align:center;" >
+ <p><div class="errors"></div>
  <input type=button value="Kõik raamatud" onClick="getBooks()">
-  <div id="one_book"></div>
-  <div id="books_table"></div>
-  <table>
+ </div>
+ </p>
+  
+  <div align="center"  id="one_book"></div>
+ <div align="center" id="books_table"></div>
+  <p>
+  <table align="center">
   	<tr>
  		 <td>Pealkiri</td>
  		 <td><input type="text" name="add_title"/></td>
@@ -33,6 +46,7 @@
   		<td><input type="submit" value="Lisa" onclick="saveBook()"/></td>
   	</tr>
   </table>
+  
 
 </body>
 </html>

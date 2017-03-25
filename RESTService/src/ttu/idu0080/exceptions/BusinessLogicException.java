@@ -1,14 +1,13 @@
 package ttu.idu0080.exceptions;
 
-public class BusinessLogicException extends Exception {
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+public class BusinessLogicException extends WebApplicationException {
 
 	public BusinessLogicException() {
 		this("Business logic exception");
-	}
-
-	public BusinessLogicException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 	public BusinessLogicException(String message, Throwable cause) {
@@ -16,7 +15,12 @@ public class BusinessLogicException extends Exception {
 	}
 
 	public BusinessLogicException(String message) {
-		super(message);
+		super(Response.status(Response.Status.BAD_REQUEST)
+				.entity(message)
+				.type(MediaType
+						.TEXT_PLAIN)
+						.build()
+			);
 	}
 
 	public BusinessLogicException(Throwable cause) {

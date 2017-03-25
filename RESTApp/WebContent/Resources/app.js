@@ -1,5 +1,12 @@
 var book_from_server;
 
+function showErrors(error){
+	$(".errors").append(error);
+	setTimeout(function() {
+		$(".errors").empty();
+	}, 5000);
+}
+
 function getBooks(){
 	$.ajaxSetup({ cache: false });
 	$.ajax({
@@ -8,6 +15,9 @@ function getBooks(){
 	    dataType: 'json',
 	    success: function(data) {
 	    	displayBooks(data);
+	    },
+	    error: function (request, status, error) {
+	        showErrors(request.responseText);
 	    }
 	  });
 }
@@ -21,9 +31,11 @@ function getBook(id){
 	    success: function(data) {
 	    	book_from_server = data;
 	    	displayBook(data);
+	    },
+	    error: function (request, status, error) {
+	        showErrors(request.responseText);
 	    }
 	  });
-	
 }
 
 function updateBook(){
@@ -44,6 +56,9 @@ function updateBook(){
 	    contentType : 'application/json',
 	    success: function(data) {
 	    	getBooks();
+	    },
+	    error: function (request, status, error) {
+	        showErrors(request.responseText);
 	    }
 	  });
 
@@ -68,6 +83,9 @@ function saveBook(){
 	    contentType : 'application/json',
 	    success: function(data) {
 	    	getBooks();
+	    },
+	    error: function (request, status, error) {
+	        showErrors(request.responseText);
 	    }
 	  });
 }
@@ -80,6 +98,9 @@ function deleteBook(id){
 	    dataType: 'json',
 	    success: function(data) {
 	    	getBooks();
+	    },
+	    error: function (request, status, error) {
+	        showErrors(request.responseText);
 	    }
 	  });
 	

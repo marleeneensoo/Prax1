@@ -1,5 +1,6 @@
 package ttu.idu0080.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import ttu.idu0080.exceptions.AppException;
@@ -39,11 +40,15 @@ public class BookDAOImpl {
 		}
 		if(
 			book.getAuthor().isEmpty()||
-			book.getGenre().isEmpty()||
-			book.getTitle().isEmpty()||
+			book.getGenre().isEmpty() ||
+			book.getTitle().isEmpty() ||
 			book.getYear() == 0)
 		{
-			throw new BookFormatException();
+			throw new BookFormatException("All Fields Required");
+		}
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		if(book.getYear() > year){
+			throw new BusinessLogicException("Movie Year Incorrect");
 		}
 		return this.bookDao.saveBook(book);
 	}
@@ -59,6 +64,10 @@ public class BookDAOImpl {
 			book.getYear() == 0)
 		{
 			throw new BookFormatException();
+		}
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		if(book.getYear() > year){
+			throw new BusinessLogicException("Movie Year Incorrect");
 		}
 		return this.bookDao.updateBook(book);
 	}

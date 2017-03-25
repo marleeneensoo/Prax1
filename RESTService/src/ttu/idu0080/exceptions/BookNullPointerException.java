@@ -1,14 +1,13 @@
 package ttu.idu0080.exceptions;
 
-public class BookNullPointerException extends Exception {
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+public class BookNullPointerException extends WebApplicationException {
 
 	public BookNullPointerException() {
 		this("Books not found");
-	}
-
-	public BookNullPointerException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 	public BookNullPointerException(String message, Throwable cause) {
@@ -16,7 +15,12 @@ public class BookNullPointerException extends Exception {
 	}
 
 	public BookNullPointerException(String message) {
-		super(message);
+		super(Response.status(Response.Status.NOT_FOUND)
+				.entity(message)
+				.type(MediaType
+						.TEXT_PLAIN)
+						.build()
+			);
 	}
 
 	public BookNullPointerException(Throwable cause) {
