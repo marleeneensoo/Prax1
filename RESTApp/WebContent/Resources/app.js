@@ -1,7 +1,31 @@
 var book_from_server;
+var attempt = 0;
+var isAlive = false;
 
+$(document).ready(function(){
+	checkIfIsAlive();
+});
+function checkIfIsAlive(){
+	$.ajaxSetup({ cache: false });
+	$.ajax({
+	    url: 'http://localhost:8080/RESTService/book/' ,
+	    type: "GET",
+	    dataType: 'json',
+	    success: function(data) {
+	    	isAlive = true;
+	    },
+	    error: function (request, status, error) {
+	    	if(attempt < 9){
+	    		 attempt = attempt + 1;
+	    		 randomRequest();
+	    	}else{
+	    		showErrors("Server is not available");
+	    	}
+	    }
+	  });
+}
 function showErrors(error){
-	$(".errors").append(error);
+	$(".errors").append('<div class="row"><div class="alert alert-danger" role="alert">'+error+'</div></div>');
 	setTimeout(function() {
 		$(".errors").empty();
 	}, 5000);
@@ -109,12 +133,12 @@ function deleteBook(id){
 function displayBook(book)
 {
 	 var out_data="";
-	 	out_data = out_data + "<table bgcolor=eeeeee><tr><td>Muutmine. Book id: <b>" + book.id + "</b></td></tr>";
-		out_data = out_data + "<tr><td>Title:</td><td><input type=text name=title value='" + book.title + "'></td></tr>";
-		out_data = out_data + "<tr><td>Author:</td><td><input type=text name=author value='" + book.author + "'></td></tr>";
-		out_data = out_data + "<tr><td>Genre:</td><td><input type=text name=genre value='" + book.genre + "'></td></tr>";
-		out_data = out_data + "<tr><td>Year:</td><td><input type=text name=year value='" + book.year + "'></td></tr>";
-		out_data = out_data + "<td><button type='button' class='btn'  onClick='updateBook()'>Salvesta muudatused</button></td>";
+	 	out_data = out_data + "<table class='table table-striped'><tr><td>Muutmine. Book id: <b>" + book.id + "</b></td></tr>";
+		out_data = out_data + "<tr><td>Title:</td><td><input type=text class='form-control' name=title value='" + book.title + "'></td></tr>";
+		out_data = out_data + "<tr><td>Author:</td><td><input type=text class='form-control' name=author value='" + book.author + "'></td></tr>";
+		out_data = out_data + "<tr><td>Genre:</td><td><input type=text class='form-control' name=genre value='" + book.genre + "'></td></tr>";
+		out_data = out_data + "<tr><td>Year:</td><td><input type=text class='form-control' name=year value='" + book.year + "'></td></tr>";
+		out_data = out_data + "<td><button type='button' class='btn btn-primary'   onClick='updateBook()'>Salvesta muudatused</button></td>";
 		out_data = out_data + "</table>";
 
 
@@ -125,14 +149,14 @@ function displayBook(book)
 function displayBooks(data)
 {
 	var out_data="";
-	 out_data = out_data + "<table id='books' bgcolor=eeeeee><tr><td colspan=4>Raamatuid kokku: <b>" + data.length + "</b></td></tr>";
+	 out_data = out_data + "<table id='books' class='table'><tr><td colspan=4>Raamatuid kokku: <b>" + data.length + "</b></td></tr>";
 	 for(var  i in data) {
    	  var book = data[i];
 		out_data = out_data + "<tr id='book_"+book.id+"'><td>Title:</td><td bgcolor=ffffff>" + book.title + "</td><td>Author:</td><td bgcolor=ffffff>" + book.author + "</td>";
 		out_data = out_data + "<td>Genre:</td><td bgcolor=ffffff>" + book.genre + "</td>";
 		out_data = out_data + "<td>Year:</td><td bgcolor=ffffff>" + book.year + "</td>";
-		out_data = out_data + "<td><button type='button' class='btn'  onClick='getBook(" + book.id + ")'>Vali</button></td>";
-		out_data = out_data + "<td><button type='button' class='btn'  onClick='deleteBook(" + book.id + ")'>Kustuta</button></td>";
+		out_data = out_data + "<td><button type='button' class='btn btn-success'  onClick='getBook(" + book.id + ")'>Vali</button></td>";
+		out_data = out_data + "<td><button type='button' class='btn btn-danger'  onClick='deleteBook(" + book.id + ")'>Kustuta</button></td>";
 	 }
 	 out_data = out_data + "</table>";
 
