@@ -1,5 +1,5 @@
 var book_from_server;
-var attempt = 0;
+var attempt = 2;
 var isAlive = false;
 
 $(document).ready(function(){
